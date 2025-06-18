@@ -1,0 +1,4 @@
+Cria um resumo extremamente detalhado e preciso sobre o seguinte tema: {tema}.
+O resumo deve abordar todos os aspetos pertinentes ao tema, explicando de forma clara e exaustiva, sem limite de extensão. O público-alvo são estudantes de IT, por isso utiliza português de Portugal e mantém todos os termos técnicos em inglês.
+Sempre que fizer sentido, organiza a informação em listas ou tabelas para maior clareza.
+Formata o resumo usando este formato: {formato}
