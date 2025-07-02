@@ -1,25 +1,28 @@
-from resumo import gerar_resumo
+from utils import getApiKey
+from resumo import generateSumary
+from quiz import interactiveQuiz
 
+api_key = getApiKey()
 try:
     while True:
         print("\n==== Assistente de Estudos ====")
         print("[1] Gerar resumo")
-        print("[2] Gerar flashcards")
-        print("[3] Fazer quiz interativo")
+        print("[2] Fazer quiz interativo")
+        print("[3] Gerar flashcards")
         print("[0] Sair")
-        escolha = input("Escolha uma opção: ").strip()
+        choice = input("Escolha uma opção: ").strip()
 
-        if escolha == "1":
-            gerar_resumo()
-#       elif escolha == "2":
-#            gerar_flashcards()
-#       elif escolha == "3":
-#          quiz_interativo()
-        elif escolha == "0":
+        if choice == "1":
+            generateSumary()
+        elif choice == "2":
+          interactiveQuiz()
+#       elif choice == "3":
+#            generateflashcards()
+        elif choice == "0":
             print("Até logo!")
             break
         else:
             print("Opção inválida. Tente novamente.")
 except KeyboardInterrupt:
-    print("\nPrograma encerrado pelo usuário.")
+    print("\nPrograma encerrado pelo user.")
 
