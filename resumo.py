@@ -73,6 +73,9 @@ def readPrompt():
     filePath = os.path.join(scriptDir, "SumaryPrompt.txt")
     try:
         with open(filePath, "r", encoding="utf-8") as f:
+            if os.stat(filePath).st_size == 0:
+                print(f"Arquivo SumaryPrompt.txt está vazio em {filePath}!")
+                return None
             return f.read()
     except FileNotFoundError:
         print(f"Arquivo SumaryPrompt.txt não encontrado em {filePath}!")
