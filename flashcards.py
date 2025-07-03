@@ -1,14 +1,14 @@
 import os
 import csv
-from openai import OpenAI
-import openai
+import google.generativeai as genai
 from utils import getApiKey
 from datetime import datetime
 import random
 
 def genFlashcards():
-    openai.api_key = getApiKey()
-    client = OpenAI(api_key=openai.api_key)
+    genai.configure(api_key=getApiKey())
+    model = genai.GenerativeModel('gemini-2.5-flash')
+
 
     # Pergunta o tema
     while True:
@@ -48,13 +48,9 @@ def genFlashcards():
             "Agora, crie os flashcards solicitados!"
             )
     print("\nA gerar flashcards... aguarde!\n")
-    answer = client.chat.completions.create(
-        model="gpt-4.1-mini-2025-04-14",
-        messages=[{"role": "user", "content": genPrompt}],
-        temperature=0.4,
-        max_tokens=1500
-    )
-    FlashText = answer.choices[0].message.content
+    response = model.generate_content(genPrompt)
+    FlashText = response.text
+
 
     # Parsing para pares pergunta-resposta
     Flashcards = []
@@ -204,7 +200,7 @@ def interactFlashcards():
         print("=" * 40)
         print(f"Cartão {idx}: {question}")
 
-        userInput = input("Carregue ENTER para ver a resposta\n(Q para sair)").strip(),lower()
+        userInput = input("Carregue ENTER para ver a resposta\n(Q para sair)").strip().lower()
         if userInput == 'q':
             print("A sair da prática de flashcards.")
             break

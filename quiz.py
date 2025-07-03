@@ -1,15 +1,13 @@
 import os
-from openai import OpenAI
-import openai
+import google.generativeai as genai
 from utils import getApiKey
 from datetime import datetime
 
 
 
 def interactiveQuiz():
-    openai.api_key = getApiKey()
-    client = OpenAI(api_key=openai.api_key)
-
+    genai.configure(api_key=getApiKey())
+    model = genai.GenerativeModel('gemini-1.5-flash')
 
     while True:
         Topic = input("Tema do quiz: ").strip()
@@ -61,16 +59,12 @@ def interactiveQuiz():
         "- médio: envolve raciocínio ou detalhes mais específicos\n"
         "- difícil: exige conhecimento aprofundado ou análise crítica\n"
         "As opções devem ser plausíveis e distintas. Evite respostas óbvias ou absurdas.\n"
-        "Apenas envie os blocos no formato acima, um após o outro, sem mais nada.")
+        "Apenas envie os blocos no formato acima, um após o outro, sem mais nada."
+    )
 
     print("\nA gerar quiz... aguarde!\n")
-    Resp = client.chat.completions.create(
-        model="gpt-4.1-mini-2025-04-14",
-        messages=[{"role": "user", "content": genPrompt}],
-        temperature=0.4,
-        max_tokens=3000
-    )
-    QuizText = Resp.choices[0].message.content
+    response = model.generate_content(genPrompt)
+    QuizText = response.text
 
 
 
@@ -124,7 +118,7 @@ def interactiveQuiz():
 
     CorrectionPrompt = (
         "Faça uma correção do quiz abaixo, pergunta a pergunta. Para cada, indique a resposta correta e forneça uma breve explicação sobre o conceito abordado na pergunta.\n"
-        "Nas perguntas que o aluno errou, se mais detalhado na explicação.\n"
+        "Nas perguntas que o aluno errou, seja mais detalhado na explicação.\n"
         "No final, sugira tópicos para rever com base nos erros.\n\n"
         "Quiz (no mesmo formato que enviado):\n" + QuizText +
         "\n\nRespostas do aluno:\n" +
@@ -133,14 +127,8 @@ def interactiveQuiz():
             for item in QuestionsAsked
         )
     )
-    CorrResp = client.chat.completions.create(
-        model="gpt-4.1-mini-2025-04-14",
-        messages=[{"role": "user", "content": CorrectionPrompt}],
-        temperature=0.4,
-        max_tokens=1800
-    )
-    CorrectionText = CorrResp.choices[0].message.content
-
+    corr_response = model.generate_content(CorrectionPrompt)
+    CorrectionText = corr_response.text
     print("\n=== Correção e Explicações ===\n")
     print(CorrectionText)
 

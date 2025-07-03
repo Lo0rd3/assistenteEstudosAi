@@ -1,11 +1,10 @@
 from utils import getApiKey
 import os
-from openai import OpenAI
-import openai
+import google.generativeai as genai
 
 def generateSumary():
-    openai.api_key = getApiKey()
-    client = OpenAI(api_key=openai.api_key)
+    genai.configure(api_key=getApiKey())
+    model = genai.GenerativeModel('gemini-2.5-flash')
 
     while True:
         theme = input("Tema do resumo: ").strip()
@@ -30,28 +29,21 @@ def generateSumary():
         else:
             print("Opção inválida.")
             
-
     promptBase = readPrompt()
     if promptBase is None: return
 
     prompt = promptBase.replace("{theme}", theme).replace("{sumaryFormat}", sumaryFormat)
-    msg = [{"role": "system", "content": prompt}]
 
     while True:
-        print("\nConsultando GPT...\n")
-        answer = client.chat.completions.create(
-            model="gpt-4.1-mini-2025-04-14",
-            messages=msg,
-            temperature=0.3,
-            max_tokens=2000
-        )
-        sumary = answer.choices[0].message.content
+        print("\nConsultando Gemini...\n")
+        response = model.generate_content(prompt)
+        sumary = response.text
 
         print("\n=== RESUMO GERADO ===\n")
         print(sumary)
         print("\nO que deseja fazer?")
         print("[1] Guardar este resumo")
-        print("[2] Pedir alteraçoes ao GPT")
+        print("[2] Pedir alteraçoes ao Gemini")
         print("[0] Voltar ao menu")
         op = input("Escolha: ").strip()
 
@@ -65,12 +57,12 @@ def generateSumary():
             break
         elif op == "2":
             while True:
-                    newQuestion = input("Digite o seu comentário: ").strip()
-                    if newQuestion:
-                        msg.append({"role": "user", "content": newQuestion})
-                        break
-                    else:
-                        print("Entrada vazia — voltando ao menu.")
+                newQuestion = input("Digite o seu comentário: ").strip()
+                if newQuestion:
+                    prompt += "\n\n" + newQuestion
+                    break
+                else:
+                    print("Entrada vazia — voltando ao menu.")
         elif op == "0":
             break
         else:
