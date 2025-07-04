@@ -3,6 +3,8 @@ import os
 import google.generativeai as genai
 
 def generateSumary():
+    os.system('cls' if os.name == 'nt' else 'clear') 
+
     genai.configure(api_key=getApiKey())
     model = genai.GenerativeModel('gemini-2.5-flash')
 
@@ -38,6 +40,8 @@ def generateSumary():
         print("\nConsultando Gemini...\n")
         response = model.generate_content(prompt)
         sumary = response.text
+        
+        os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
 
         print("\n=== RESUMO GERADO ===\n")
         print(sumary)
@@ -48,6 +52,7 @@ def generateSumary():
         op = input("Escolha: ").strip()
 
         if op == "1":
+            os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
             if not os.path.exists("resumos"):
                 os.makedirs("resumos")
             outputPath = os.path.join("resumos", theme.replace(" ", "_") + extension)
@@ -56,6 +61,7 @@ def generateSumary():
             print(f"Resumo guardado em: {outputPath}")
             break
         elif op == "2":
+            os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
             while True:
                 newQuestion = input("Digite o seu comentário: ").strip()
                 if newQuestion:
@@ -64,6 +70,7 @@ def generateSumary():
                 else:
                     print("Entrada vazia — voltando ao menu.")
         elif op == "0":
+            os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
             break
         else:
             print("Opção inválida.")

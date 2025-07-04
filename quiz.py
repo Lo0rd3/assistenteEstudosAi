@@ -6,6 +6,8 @@ from datetime import datetime
 
 
 def interactiveQuiz():
+    os.system('cls' if os.name == 'nt' else 'clear')
+
     genai.configure(api_key=getApiKey())
     model = genai.GenerativeModel('gemini-1.5-flash')
 
@@ -17,11 +19,11 @@ def interactiveQuiz():
 
     
     while True:
-        Num = input("Quantas perguntas quer no quiz? ").strip()
+        Num = input("\nQuantas perguntas quer no quiz? ").strip()
         if Num.isdigit() and int(Num) > 0:
             NumQuestions = int(Num)
             break
-        print("Por favor, insira um número válido.")
+        print("\nPor favor, insira um número válido.")
 
     
     while True:
@@ -78,6 +80,8 @@ def interactiveQuiz():
     QuestionsAsked = []
 
     for idQuestion, Block in enumerate(Blocks, start=1):
+        os.system('cls' if os.name == 'nt' else 'clear')
+
         Lines = [l.strip() for l in Block.splitlines() if l.strip()]
         if len(Lines) < 6:
             print("\nBloco mal formatado, ignorado.")
@@ -89,10 +93,18 @@ def interactiveQuiz():
             print("Não encontrei resposta correta, bloco ignorado.")
             print('\n'.join(Lines))
             continue
-        CorrectNum = CorrectLine.split(":")[1].strip()
-        print(f"\nPergunta {idQuestion}: {Question}")
+        CorrectPart = CorrectLine.split(":")[1].strip()
+        if CorrectPart.startswith("(") and CorrectPart.endswith(")"):
+            CorrectNum = CorrectPart[1:-1].strip()
+        else:
+            CorrectNum = CorrectPart
+        width = os.get_terminal_size().columns
+        
+        print(f"\nPergunta {idQuestion}: {Question}\n")
+        print("=" * width)
         for opt in Options:
             print(opt)
+            print( "-" * width)
         while True:
             Answer = input("A sua resposta (1/2/3/4): ").strip()
             if Answer in ("1", "2", "3", "4"):
@@ -105,7 +117,7 @@ def interactiveQuiz():
     if not UserAnswers:
         print("Não foi possível realizar o quiz devido a erro de formatação das perguntas.")
         return
-
+   
     Score = sum(1 for q in CorrectAnswers if UserAnswers.get(q) == CorrectAnswers[q])
     print(f"\nQuiz concluído. Score: {Score}/{len(UserAnswers)}")
     print("\nA gerar correção... aguarde!\n")
@@ -120,6 +132,7 @@ def interactiveQuiz():
         "Faça uma correção do quiz abaixo, pergunta a pergunta. Para cada, indique a resposta correta e forneça uma breve explicação sobre o conceito abordado na pergunta.\n"
         "Nas perguntas que o aluno errou, seja mais detalhado na explicação.\n"
         "No final, sugira tópicos para rever com base nos erros.\n\n"
+        "Use um formato sem qualquer markdown ou formatação especial, apenas texto simples.\n"
         "Quiz (no mesmo formato que enviado):\n" + QuizText +
         "\n\nRespostas do aluno:\n" +
         "\n".join(
@@ -129,6 +142,7 @@ def interactiveQuiz():
     )
     corr_response = model.generate_content(CorrectionPrompt)
     CorrectionText = corr_response.text
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("\n=== Correção e Explicações ===\n")
     print(CorrectionText)
 
@@ -137,10 +151,10 @@ def interactiveQuiz():
 
 
 
-    
+    print("-" * width)
     SaveChoice = ""
     while SaveChoice not in ("1", "2"):
-        print("\nDeseja guardar esta correção?")
+        print("Deseja guardar esta correção?")
         print("[1] Sim")
         print("[2] Não")
         SaveChoice = input("Escolha: ").strip()
@@ -148,10 +162,12 @@ def interactiveQuiz():
             print("Opção inválida! Tente novamente.")
 
     if SaveChoice == "2":
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("Correção não guardada.")
         return 
 
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')
         print("\nEm que formato deseja guardar o resumo?")
         print("[1] Markdown (.md)")
         print("[2] Texto simples (.txt)")
@@ -164,10 +180,12 @@ def interactiveQuiz():
             Ext = ".txt"
             break
         elif FormatChoice == "3":
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("Gravação cancelada.")
             return
         else:
             print("Opção inválida, tente novamente.")
+        os.system('cls' if os.name == 'nt' else 'clear')
 
 
 

@@ -17,6 +17,8 @@ def readPrompt():
         return None
 
 def generateCheatSheet():
+    os.system('cls' if os.name == 'nt' else 'clear')  
+
     genai.configure(api_key=getApiKey())
     model = genai.GenerativeModel('gemini-2.5-flash')
 
@@ -53,7 +55,7 @@ def generateCheatSheet():
             extension = ".md"
             break
         elif choice == "2":
-            cheatsheetFormat = "texto simples (.txt)"
+            cheatsheetFormat = "texto simples (.txt) sem qualquer formatação markdown."
             extension = ".txt"
             break
         else:
@@ -68,6 +70,8 @@ def generateCheatSheet():
         response = model.generate_content(prompt)
         cheatsheet = response.text
 
+        os.system('cls' if os.name == 'nt' else 'clear')
+        
         print("\n=== CHEATSHEET GERADO ===\n")
         print(cheatsheet)
         print("\nO que deseja fazer?")
@@ -77,6 +81,7 @@ def generateCheatSheet():
         op = input("Escolha: ").strip()
 
         if op == "1":
+            os.system('cls' if os.name == 'nt' else 'clear')
             if not os.path.exists("cheatsheets"):
                 os.makedirs("cheatsheets")
             outputPath = os.path.join("cheatsheets", theme.replace(" ", "_") + extension)
@@ -85,6 +90,7 @@ def generateCheatSheet():
             print(f"Cheatsheet guardado em: {outputPath}")
             break
         elif op == "2":
+            os.system('cls' if os.name == 'nt' else 'clear')
             newComment = input("Digite o seu comentário: ").strip()
             if newComment:
                 prompt += "\n\n" + newComment

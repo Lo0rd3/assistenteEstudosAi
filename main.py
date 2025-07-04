@@ -4,7 +4,13 @@ from quiz import interactiveQuiz
 from flashcards import interactFlashcards
 from flashcards import genFlashcards
 from cheatSheet import generateCheatSheet
+import os
+
+
 api_key = getApiKey()
+os.system('cls' if os.name == 'nt' else 'clear')
+
+
 try:
     while True:
         print("\n==== Assistente de Estudos ====")
@@ -30,6 +36,7 @@ try:
             print("Até logo!")
             break
         else:
+            os.system('cls' if os.name == 'nt' else 'clear')
             print("Opção inválida. Tente novamente.")
 except KeyboardInterrupt:
     print("\nPrograma encerrado pelo user.")
