@@ -4,9 +4,10 @@ from quiz import interactiveQuiz
 from flashcards import interactFlashcards
 from flashcards import genFlashcards
 from cheatSheet import generateCheatSheet
+from dotenv import load_dotenv
 import os
 
-
+load_dotenv()
 api_key = getApiKey()
 os.system('cls' if os.name == 'nt' else 'clear')
 
