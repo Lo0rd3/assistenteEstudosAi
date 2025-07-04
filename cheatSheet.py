@@ -67,9 +67,12 @@ def generateCheatSheet():
 
     while True:
         print("\nConsultando Gemini...\n")
-        response = model.generate_content(prompt)
-        cheatsheet = response.text
-
+        try:
+            response = model.generate_content(prompt)
+            cheatsheet = response.text
+        except Exception as e:
+            print(f"Erro ao gerar cheatsheet com o Gemini: {e}")
+            return
         os.system('cls' if os.name == 'nt' else 'clear')
         
         print("\n=== CHEATSHEET GERADO ===\n")

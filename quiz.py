@@ -65,9 +65,12 @@ def interactiveQuiz():
     )
 
     print("\nA gerar quiz... aguarde!\n")
-    response = model.generate_content(genPrompt)
-    QuizText = response.text
-
+    try:    
+        response = model.generate_content(genPrompt)
+        QuizText = response.text
+    except Exception as e:
+        print(f"Erro ao gerar o conteudo com o Gemini: {e}")
+        return
 
 
 
@@ -140,8 +143,12 @@ def interactiveQuiz():
             for item in QuestionsAsked
         )
     )
-    corr_response = model.generate_content(CorrectionPrompt)
-    CorrectionText = corr_response.text
+    try:
+        corr_response = model.generate_content(CorrectionPrompt)
+        CorrectionText = corr_response.text
+    except Exception as e:
+        print(f"Erro ao gerar a correção com o Gemini: {e}")
+        return
     os.system('cls' if os.name == 'nt' else 'clear')
     print("\n=== Correção e Explicações ===\n")
     print(CorrectionText)

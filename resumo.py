@@ -38,9 +38,12 @@ def generateSumary():
 
     while True:
         print("\nConsultando Gemini...\n")
-        response = model.generate_content(prompt)
-        sumary = response.text
-        
+        try:
+            response = model.generate_content(prompt)
+            sumary = response.text
+        except Exception as e:
+            print(f"Erro a gerar o conteudo com o gemini: {e}")
+            return
         os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
 
         print("\n=== RESUMO GERADO ===\n")

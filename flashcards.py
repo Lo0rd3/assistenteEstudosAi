@@ -49,8 +49,12 @@ def genFlashcards():
             "Agora, crie os flashcards solicitados!"
             )
     print("\nA gerar flashcards... aguarde!\n")
-    response = model.generate_content(genPrompt)
-    FlashText = response.text
+    try:
+        response = model.generate_content(genPrompt)
+        FlashText = response.text
+    except Exception as e:
+        print(f"Erro ao gerar os flashcards com o Gemini: {e}")
+        return
     os.system('cls' if os.name == 'nt' else 'clear') 
 
     # Parsing para pares pergunta-resposta
