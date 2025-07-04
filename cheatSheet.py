@@ -1,4 +1,3 @@
-# cheatsheet.py
 from utils import getApiKey
 import os
 import google.generativeai as genai
@@ -77,6 +76,9 @@ def generateCheatSheet():
         
         print("\n=== CHEATSHEET GERADO ===\n")
         print(cheatsheet)
+        
+        width = os.get_terminal_size().columns
+        print("=" * width)
         print("\nO que deseja fazer?")
         print("[1] Guardar este cheatsheet")
         print("[2] Pedir alterações ao Gemini")

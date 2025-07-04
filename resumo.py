@@ -44,10 +44,12 @@ def generateSumary():
         except Exception as e:
             print(f"Erro a gerar o conteudo com o gemini: {e}")
             return
-        os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
+        os.system('cls' if os.name == 'nt' else 'clear')  
 
         print("\n=== RESUMO GERADO ===\n")
         print(sumary)
+        width = os.get_terminal_size().columns
+        print("=" * width)
         print("\nO que deseja fazer?")
         print("[1] Guardar este resumo")
         print("[2] Pedir alteraçoes ao Gemini")
@@ -55,7 +57,7 @@ def generateSumary():
         op = input("Escolha: ").strip()
 
         if op == "1":
-            os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
+            os.system('cls' if os.name == 'nt' else 'clear')  
             if not os.path.exists("resumos"):
                 os.makedirs("resumos")
             outputPath = os.path.join("resumos", theme.replace(" ", "_") + extension)
@@ -64,7 +66,7 @@ def generateSumary():
             print(f"Resumo guardado em: {outputPath}")
             break
         elif op == "2":
-            os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
+            os.system('cls' if os.name == 'nt' else 'clear')  
             while True:
                 newQuestion = input("Digite o seu comentário: ").strip()
                 if newQuestion:
@@ -73,7 +75,7 @@ def generateSumary():
                 else:
                     print("Entrada vazia — voltando ao menu.")
         elif op == "0":
-            os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal
+            os.system('cls' if os.name == 'nt' else 'clear')  
             break
         else:
             print("Opção inválida.")

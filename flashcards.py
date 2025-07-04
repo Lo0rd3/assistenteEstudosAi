@@ -11,14 +11,12 @@ def genFlashcards():
 
     os.system('cls' if os.name == 'nt' else 'clear') 
 
-    # Pergunta o tema
     while True:
         Theme = input("Tema dos flashcards: ").strip()
         if Theme and len(Theme) >= 3:
             break
         print("\nO tema deve ter pelo menos 3 caracteres.")
 
-    # Pergunta quantos flashcards
     while True:
         Num = input("\nQuantos flashcards quer gerar? ").strip()
         if Num.isdigit() and int(Num) > 0:
@@ -26,7 +24,6 @@ def genFlashcards():
             break
         print("\nPor favor, insira um número válido.")
 
-    # Gera os flashcards
     genPrompt = (
             "Você é um especialista em educação e técnicas de estudo, altamente capacitado em criar flashcards perfeitos que facilitam a memorização ativa e a recuperação eficiente da informação. "
             "Seu objetivo é elaborar flashcards claros, diretos, e altamente eficazes, que sigam rigorosamente estas instruções:\n\n"
@@ -57,7 +54,6 @@ def genFlashcards():
         return
     os.system('cls' if os.name == 'nt' else 'clear') 
 
-    # Parsing para pares pergunta-resposta
     Flashcards = []
     bloc = [l.strip() for l in FlashText.splitlines() if l.strip()]
     q = None
@@ -78,7 +74,7 @@ def genFlashcards():
     for idx, (q, a) in enumerate(Flashcards, start=1):
         print(f"{idx}. P: {q}\n   R: {a}")
     print("-" * width)
-    # Pergunta se quer guardar
+
     SaveChoice = ""
     while SaveChoice not in ("1", "2"):
         print("\nDeseja guardar estes flashcards?")
@@ -91,8 +87,8 @@ def genFlashcards():
         os.system('cls' if os.name == 'nt' else 'clear')
         print("Flashcards não guardados.")
         return 
-    os.system('cls' if os.name == 'nt' else 'clear')  # Limpar o terminal após confirmação
-    # Salvar em CSV 
+    os.system('cls' if os.name == 'nt' else 'clear')  
+
     if not os.path.exists("flashcards"):
         os.makedirs("flashcards")
     now = datetime.now().strftime("%Y%m%d_%H%M")
